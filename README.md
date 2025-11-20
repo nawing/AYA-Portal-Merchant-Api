@@ -100,7 +100,7 @@ const paymentPayload = {
   merchOrderId: 'ORD-' + Date.now(),
   amount: '1000.00',
   appKey: options.appKey,
-  timestamp: Date.now().toString(), // Must be a string
+  timestamp: Date.now().getTime(),
   userRef1: 'user-123',
   userRef2: 'ref-2',
   userRef3: 'ref-3',

@@ -6,10 +6,10 @@ import crypto from 'crypto';
  * @EnnquiryPayment
  * @EnnquiryPayment
  */
-interface EnquiryRequest {
+export interface EnquiryRequest {
   merchOrderId: string;
 }
-interface EnquiryResponse {
+export interface EnquiryResponse {
   message: string;
   status: string;
   data: {
@@ -18,7 +18,7 @@ interface EnquiryResponse {
     checkSum: string;
   }
 }
-interface EnquiryDecodedResponse {
+export interface EnquiryDecodedResponse {
   merchOrderId: string;
   tranId: string;
   amount: string;
@@ -46,11 +46,11 @@ interface EnquiryDecodedResponse {
  * @CreatePayment
  * @CreatePayment
  */
-interface PaymentRequest {
+export interface PaymentRequest {
   merchOrderId: string;
   amount: string;
   appKey: string;
-  timestamp: string;
+  timestamp: number;
   userRef1: string;
   userRef2: string;
   userRef3: string;
@@ -63,7 +63,7 @@ interface PaymentRequest {
   overrideFrontendRedirectUrl: string;
   checkSum: string;
 }
-interface PaymentResponse {
+export interface PaymentResponse {
   success: boolean;
   transactionId: string;
   qrCodeUrl: string;
@@ -75,7 +75,7 @@ interface PaymentResponse {
  * @PaymentLists
  * @PaymentLists
  */
-interface PaymentServiceResponse {
+export interface PaymentServiceResponse {
   name: string;
   key: string;
   image_url: string;
@@ -86,12 +86,12 @@ interface PaymentServiceResponse {
  * @Callbacks
  * @Callbacks
  */
-interface CallbackRequest {
+export interface CallbackRequest {
   payload: string;
   merchOrderId: string;
   checkSum: string;
 }
-interface CallbackDecodedPayload {
+export interface CallbackDecodedPayload {
   merchOrderId: string;
   tranId: string;
   amount: string;
@@ -123,19 +123,19 @@ export interface SDKOptions {
 /**
  * AYAMerchantSDK
  * @param {SDKOptions} options
- * @returns {AYAMerchant} A status message string.
+ * @returns {AYAMerchantClass} A status message string.
  */
-export function AYAMerchantSDK(options: SDKOptions): AYAMerchant {
-  return new AYAMerchant({
+export function AYAMerchantSDK(options: SDKOptions): AYAMerchantClass {
+  return new AYAMerchantClass({
     baseUrl: options.baseUrl,
     appKey: options.appKey,
     secretKey: options.secretKey,
   })
 }
 /**
- * @AYAMerchant
+ * @AYAMerchantClass
  */
-export default class AYAMerchant {
+export default class AYAMerchantClass {
 
   readonly #baseUrl: string;
   readonly #appKey: string;
@@ -320,7 +320,7 @@ export default class AYAMerchant {
    * @param {string} merchOrderId
    * @param {string} amount
    * @param {string} appKey
-   * @param {string} timestamp
+   * @param {number} timestamp
    * @param {string} userRef1
    * @param {string} userRef2
    * @param {string} userRef3
@@ -337,7 +337,7 @@ export default class AYAMerchant {
     merchOrderId: string,
     amount: string,
     appKey: string,
-    timestamp: string,
+    timestamp: number,
     userRef1: string,
     userRef2: string,
     userRef3: string,

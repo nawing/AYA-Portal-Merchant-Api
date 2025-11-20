@@ -3,10 +3,19 @@
  * @EnnquiryPayment
  * @EnnquiryPayment
  */
-interface EnquiryRequest {
+export interface EnquiryRequest {
     merchOrderId: string;
 }
-interface EnquiryDecodedResponse {
+export interface EnquiryResponse {
+    message: string;
+    status: string;
+    data: {
+        payload: string;
+        merchOrderId: string;
+        checkSum: string;
+    };
+}
+export interface EnquiryDecodedResponse {
     merchOrderId: string;
     tranId: string;
     amount: string;
@@ -32,11 +41,11 @@ interface EnquiryDecodedResponse {
  * @CreatePayment
  * @CreatePayment
  */
-interface PaymentRequest {
+export interface PaymentRequest {
     merchOrderId: string;
     amount: string;
     appKey: string;
-    timestamp: string;
+    timestamp: number;
     userRef1: string;
     userRef2: string;
     userRef3: string;
@@ -49,7 +58,7 @@ interface PaymentRequest {
     overrideFrontendRedirectUrl: string;
     checkSum: string;
 }
-interface PaymentResponse {
+export interface PaymentResponse {
     success: boolean;
     transactionId: string;
     qrCodeUrl: string;
@@ -61,7 +70,7 @@ interface PaymentResponse {
  * @PaymentLists
  * @PaymentLists
  */
-interface PaymentServiceResponse {
+export interface PaymentServiceResponse {
     name: string;
     key: string;
     image_url: string;
@@ -72,10 +81,31 @@ interface PaymentServiceResponse {
  * @Callbacks
  * @Callbacks
  */
-interface CallbackRequest {
+export interface CallbackRequest {
     payload: string;
     merchOrderId: string;
     checkSum: string;
+}
+export interface CallbackDecodedPayload {
+    merchOrderId: string;
+    tranId: string;
+    amount: string;
+    currencyCode: string;
+    statusCode: string;
+    paymentCardNumber: string;
+    paymentMobileNumber: string;
+    cardTypeName: string;
+    cardExpiryDate: string;
+    nameOnCard: string;
+    approvalCode: string;
+    tranRef: string;
+    userRef1: string;
+    userRef2: string;
+    userRef3: string;
+    userRef4: string;
+    userRef5: string;
+    description: string;
+    dateTime: string;
 }
 /**
  * SDKOptions
@@ -88,13 +118,13 @@ export interface SDKOptions {
 /**
  * AYAMerchantSDK
  * @param {SDKOptions} options
- * @returns {AYAMerchant} A status message string.
+ * @returns {AYAMerchantClass} A status message string.
  */
-export declare function AYAMerchantSDK(options: SDKOptions): AYAMerchant;
+export declare function AYAMerchantSDK(options: SDKOptions): AYAMerchantClass;
 /**
- * @AYAMerchant
+ * @AYAMerchantClass
  */
-export default class AYAMerchant {
+export default class AYAMerchantClass {
     #private;
     constructor(options: SDKOptions);
     /**
@@ -149,7 +179,7 @@ export default class AYAMerchant {
      * @param {string} merchOrderId
      * @param {string} amount
      * @param {string} appKey
-     * @param {string} timestamp
+     * @param {number} timestamp
      * @param {string} userRef1
      * @param {string} userRef2
      * @param {string} userRef3
@@ -162,7 +192,7 @@ export default class AYAMerchant {
      * @param {string} overrideFrontendRedirectUrl
      * @returns {string}
      */
-    sumCheckPayRequest(merchOrderId: string, amount: string, appKey: string, timestamp: string, userRef1: string, userRef2: string, userRef3: string, userRef4: string, userRef5: string, description: string, currencyCode: string, channel: string, method: string, overrideFrontendRedirectUrl: string): string;
+    sumCheckPayRequest(merchOrderId: string, amount: string, appKey: string, timestamp: number, userRef1: string, userRef2: string, userRef3: string, userRef4: string, userRef5: string, description: string, currencyCode: string, channel: string, method: string, overrideFrontendRedirectUrl: string): string;
     /**
      * sumCheckEnquiry
      * @param {string} merchOrderId
@@ -195,4 +225,3 @@ export default class AYAMerchant {
      */
     sumCheckCallback(merchOrderId: string, tranId: string, amount: string, currencyCode: string, statusCode: string, paymentCardNumber: string, paymentMobileNumber: string, cardTypeName: string, cardExpiryDate: string, nameOnCard: string, approvalCode: string, tranRef: string, userRef1: string, userRef2: string, userRef3: string, userRef4: string, userRef5: string, description: string, dateTime: string): string;
 }
-export {};

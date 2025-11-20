@@ -9,19 +9,19 @@ const crypto_1 = __importDefault(require("crypto"));
 /**
  * AYAMerchantSDK
  * @param {SDKOptions} options
- * @returns {AYAMerchant} A status message string.
+ * @returns {AYAMerchantClass} A status message string.
  */
 function AYAMerchantSDK(options) {
-    return new AYAMerchant({
+    return new AYAMerchantClass({
         baseUrl: options.baseUrl,
         appKey: options.appKey,
         secretKey: options.secretKey,
     });
 }
 /**
- * @AYAMerchant
+ * @AYAMerchantClass
  */
-class AYAMerchant {
+class AYAMerchantClass {
     #baseUrl;
     #appKey;
     #secretKey;
@@ -168,7 +168,7 @@ class AYAMerchant {
      * @param {string} merchOrderId
      * @param {string} amount
      * @param {string} appKey
-     * @param {string} timestamp
+     * @param {number} timestamp
      * @param {string} userRef1
      * @param {string} userRef2
      * @param {string} userRef3
@@ -265,4 +265,4 @@ class AYAMerchant {
             .digest('hex');
     }
 }
-exports.default = AYAMerchant;
+exports.default = AYAMerchantClass;
