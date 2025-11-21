@@ -2,9 +2,9 @@ import axios from 'axios';
 import crypto from 'crypto';
 
 /**
- * @EnnquiryPayment
- * @EnnquiryPayment
- * @EnnquiryPayment
+ * @EnquiryPayment
+ * @EnquiryPayment
+ * @EnquiryPayment
  */
 export interface EnquiryRequest {
   merchOrderId: string;
@@ -39,8 +39,6 @@ export interface EnquiryDecodedResponse {
   description: string;
   dateTime: string;
 }
-
-
 /**
  * @CreatePayment
  * @CreatePayment
@@ -113,7 +111,9 @@ export interface CallbackDecodedPayload {
   dateTime: string;
 }
 /**
- * SDKOptions
+ * @SDKOptions
+ * @SDKOptions
+ * @SDKOptions
  */
 export interface SDKOptions {
   baseUrl: string;
@@ -121,7 +121,9 @@ export interface SDKOptions {
   secretKey: string;
 }
 /**
- * AYAMerchantSDK
+ * @AYAMerchantSDK
+ * @AYAMerchantSDK
+ * @AYAMerchantSDK
  * @param {SDKOptions} options
  * @returns {AYAMerchantClass} A status message string.
  */
@@ -133,6 +135,8 @@ export function AYAMerchantSDK(options: SDKOptions): AYAMerchantClass {
   })
 }
 /**
+ * @AYAMerchantClass
+ * @AYAMerchantClass
  * @AYAMerchantClass
  */
 export default class AYAMerchantClass {

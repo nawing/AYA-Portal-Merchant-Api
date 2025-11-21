@@ -1,6 +1,6 @@
 {
   "name": "aya-merchant-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MMQR, Master, Visa, JCB, MPU",
   "type": "module",
   "keywords": [
