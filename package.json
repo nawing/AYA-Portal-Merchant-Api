@@ -1,8 +1,7 @@
 {
   "name": "aya-merchant-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MMQR, Master, Visa, JCB, MPU",
-  "type": "commonjs",
   "keywords": [
     "MMQR",
     "Master",
@@ -40,6 +39,8 @@
   "author": "Naw Ing",
   "license": "ISC",
   "dependencies": {
-    "crypto": "^1.0.1"
+    "axios": "^1.13.2",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.2.2"
   }
 }

@@ -1,19 +1,16 @@
 // const axios = require("axios");
 
-const { AYAMerchantSDK } = require("../dist/cjs/index");
+const { AYAMerchantSDK } = require("../dist/cjs/index.js");
 const { performance } = require('perf_hooks');
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function start() {
   const startTime = performance.now();
-
-  // const AyaMerchantClient = AYAMerchantSDK({
-  //   baseUrl: process.env.baseUrl,
-  //   appKey: process.env.appKey,
-  //   secretKey: process.env.secretKey,
-  // })
-
   const AyaMerchantClient = AYAMerchantSDK({
-
+    baseUrl: process.env.baseUrl,
+    appKey: process.env.appKey,
+    secretKey: process.env.secretKey,
   })
 
   /**
@@ -31,42 +28,68 @@ async function start() {
   //     console.log(error)
   //   })
 
+  const merchOrderId = "ORD-" + new Date().getTime().toString();
+  console.log(merchOrderId)
   /**
    * @createPayment
    * @createPayment
    */
-  AyaMerchantClient
-    .createPayment({
-      merchOrderId: "ORD" + new Date().getTime().toString(),
-      amount: "15000",
-      timestamp: new Date().getTime(),
-      userRef1: "Payment Testing",
-      userRef2: "",
-      userRef3: "",
-      userRef4: "",
-      userRef5: "",
-      description: "",
-      currencyCode: "104",
-      channel: "mmqr",
-      method: "QR",
-      overrideFrontendRedirectUrl: ""
-    })
-    .then((response) => {
-      const endTime = performance.now();
-      const latencyMs = (endTime - startTime).toFixed(3);
-      console.log(`\n--- Successful ---`);
-      console.log(`**Network Latency: ${latencyMs} ms**`);
-      console.log(`Response:`, response);
-      console.log(`------------------------------\n`);
-    })
-    .catch((error) => {
-      const endTime = performance.now();
-      const latencyMs = (endTime - startTime).toFixed(3);
-      console.log(`\n--- Failed ---`);
-      console.log(`**Network Latency: ${latencyMs} ms**`);
-      console.log(`Response:`, error);
-      console.log(`------------------------------\n`);
-    })
+  // AyaMerchantClient
+  //   .createPayment({
+  //     merchOrderId: merchOrderId,
+  //     amount: "15000",
+  //     timestamp: new Date().getTime(),
+  //     userRef1: "Payment Testing",
+  //     userRef2: "",
+  //     userRef3: "",
+  //     userRef4: "",
+  //     userRef5: "",
+  //     description: "",
+  //     currencyCode: "104",
+  //     channel: "mmqr",
+  //     method: "QR",
+  //     overrideFrontendRedirectUrl: ""
+  //   })
+  //   .then((response) => {
+  //     const endTime = performance.now();
+  //     const latencyMs = (endTime - startTime).toFixed(3);
+  //     console.log(`\n--- Successful ---`);
+  //     console.log(`**Network Latency: ${latencyMs} ms**`);
+  //     console.log(`Response:`, response);
+  //     console.log(`------------------------------\n`);
+  //   })
+  //   .catch((error) => {
+  //     const endTime = performance.now();
+  //     const latencyMs = (endTime - startTime).toFixed(3);
+  //     console.log(`\n--- Failed ---`);
+  //     console.log(`**Network Latency: ${latencyMs} ms**`);
+  //     console.log(`Response:`, error);
+  //     console.log(`------------------------------\n`);
+  //   })
+  /**
+   * @enquiryPayment
+   * @enquiryPayment
+   */
+  // AyaMerchantClient
+  //   .enquiryPayment({
+  //     merchOrderId: "ORD-1763982113750",
+  //   })
+  //   .then((response) => {
+  //     const endTime = performance.now();
+  //     const latencyMs = (endTime - startTime).toFixed(3);
+  //     console.log(`\n--- Successful ---`);
+  //     console.log(`**Network Latency: ${latencyMs} ms**`);
+  //     console.log(`Response:`, response);
+  //     console.log(`------------------------------\n`);
+  //   })
+  //   .catch((error) => {
+  //     const endTime = performance.now();
+  //     const latencyMs = (endTime - startTime).toFixed(3);
+  //     console.log(`\n--- Failed ---`);
+  //     console.log(`**Network Latency: ${latencyMs} ms**`);
+  //     console.log(`Response:`, error);
+  //     console.log(`------------------------------\n`);
+  //   })
 }
 
 

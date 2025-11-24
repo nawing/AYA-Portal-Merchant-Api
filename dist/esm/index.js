@@ -345,22 +345,16 @@ class AYAMerchantClass {
         let match;
         while ((match = scriptTagRegex.exec(sourceString)) !== null) {
             const scriptContent = match[1];
-            console.log("--- Scanning Script Content ---");
-            console.log("Length:", scriptContent.length);
-            console.log("Content Preview:", scriptContent.substring(0, 150) + (scriptContent.length > 150 ? "..." : ""));
-            console.log("------------------------------");
             if (tranId === null) {
                 const tranIdMatch = scriptContent.match(tranIdRegex);
                 if (tranIdMatch && tranIdMatch[2]) {
                     tranId = tranIdMatch[2];
-                    console.log("DEBUG: Found Transaction ID:", tranId);
                 }
             }
             if (qrLink === null) {
                 const qrLinkMatch = scriptContent.match(qrLinkRegex);
                 if (qrLinkMatch && qrLinkMatch[2]) {
                     qrLink = qrLinkMatch[2];
-                    console.log("DEBUG: Found QR ID:", qrLink);
                 }
             }
             if (tranId !== null && qrLink !== null) {
