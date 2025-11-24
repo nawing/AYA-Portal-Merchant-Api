@@ -1,7 +1,7 @@
 /**
- * @EnnquiryPayment
- * @EnnquiryPayment
- * @EnnquiryPayment
+ * @EnquiryPayment
+ * @EnquiryPayment
+ * @EnquiryPayment
  */
 export interface EnquiryRequest {
     merchOrderId: string;
@@ -60,9 +60,9 @@ export interface PaymentRequest {
 }
 export interface PaymentResponse {
     success: boolean;
-    transactionId: string;
-    qrCodeUrl: string;
-    redirectUrl: string;
+    transactionId?: string;
+    qr?: string;
+    url?: string;
     error?: string;
 }
 /**
@@ -108,7 +108,9 @@ export interface CallbackDecodedPayload {
     dateTime: string;
 }
 /**
- * SDKOptions
+ * @SDKOptions
+ * @SDKOptions
+ * @SDKOptions
  */
 export interface SDKOptions {
     baseUrl: string;
@@ -116,12 +118,16 @@ export interface SDKOptions {
     secretKey: string;
 }
 /**
- * AYAMerchantSDK
+ * @AYAMerchantSDK
+ * @AYAMerchantSDK
+ * @AYAMerchantSDK
  * @param {SDKOptions} options
  * @returns {AYAMerchantClass} A status message string.
  */
 export declare function AYAMerchantSDK(options: SDKOptions): AYAMerchantClass;
 /**
+ * @AYAMerchantClass
+ * @AYAMerchantClass
  * @AYAMerchantClass
  */
 export default class AYAMerchantClass {
@@ -137,8 +143,6 @@ export default class AYAMerchantClass {
      * @param {PaymentRequest} payload
      * @param {string} payload.merchOrderId
      * @param {string} payload.amount
-     * @param {string} payload.appKey
-     * @param {number} payload.timestamp
      * @param {string} payload.userRef1
      * @param {string} payload.userRef2
      * @param {string} payload.userRef3
@@ -152,6 +156,24 @@ export default class AYAMerchantClass {
      * @returns {PaymentResponse}
      */
     createPayment(payload: PaymentRequest): Promise<PaymentResponse>;
+    /**
+     * createPaymentRedirect
+     * @param {PaymentRequest} payload
+     * @param {string} payload.merchOrderId
+     * @param {string} payload.amount
+     * @param {string} payload.userRef1
+     * @param {string} payload.userRef2
+     * @param {string} payload.userRef3
+     * @param {string} payload.userRef4
+     * @param {string} payload.userRef5
+     * @param {string} payload.description
+     * @param {string} payload.currencyCode
+     * @param {string} payload.channel
+     * @param {string} payload.method
+     * @param {string} payload.overrideFrontendRedirectUrl
+     * @returns {PaymentResponse}
+     */
+    createPaymentRedirect(payload: PaymentRequest): Promise<any>;
     /**
      * enquiryPayment
      * @param {EnquiryRequest} payload
@@ -192,7 +214,7 @@ export default class AYAMerchantClass {
      * @param {string} overrideFrontendRedirectUrl
      * @returns {string}
      */
-    sumCheckPayRequest(merchOrderId: string, amount: string, appKey: string, timestamp: number, userRef1: string, userRef2: string, userRef3: string, userRef4: string, userRef5: string, description: string, currencyCode: string, channel: string, method: string, overrideFrontendRedirectUrl: string): string;
+    sumCheckPayRequest(merchOrderId: string, amount: string, timestamp: number, userRef1: string, userRef2: string, userRef3: string, userRef4: string, userRef5: string, description: string, currencyCode: string, channel: string, method: string, overrideFrontendRedirectUrl: string): string;
     /**
      * sumCheckEnquiry
      * @param {string} merchOrderId
@@ -224,4 +246,22 @@ export default class AYAMerchantClass {
      * @returns {string}
      */
     sumCheckCallback(merchOrderId: string, tranId: string, amount: string, currencyCode: string, statusCode: string, paymentCardNumber: string, paymentMobileNumber: string, cardTypeName: string, cardExpiryDate: string, nameOnCard: string, approvalCode: string, tranRef: string, userRef1: string, userRef2: string, userRef3: string, userRef4: string, userRef5: string, description: string, dateTime: string): string;
+    /**
+     * extractDataByValuePattern
+     * @param {string} sourceString The raw HTML or content string to parse.
+     * @returns An object containing the extracted values.
+     */
+    extractDataByValuePattern(sourceString: string): {
+        tranId: string;
+        qrLink: string;
+    };
+    /**
+     *extractData
+     * @param sourceString
+     * @returns
+     */
+    extractData(sourceString: string): {
+        tranId: string;
+        qrLink: string;
+    };
 }

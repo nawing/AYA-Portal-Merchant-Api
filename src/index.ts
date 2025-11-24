@@ -63,9 +63,9 @@ export interface PaymentRequest {
 }
 export interface PaymentResponse {
   success: boolean;
-  transactionId: string;
-  qrCodeUrl: string;
-  redirectUrl: string;
+  transactionId?: string;
+  qr?: string;
+  url?: string;
   error?: string;
 }
 /**
@@ -171,6 +171,7 @@ export default class AYAMerchantClass {
       const response = await axios.post(`${this.#baseUrl}/v1/payment/services`, body, config);
       return response.data;
     } catch (error) {
+      console.error(error)
       throw new Error("AYAConnect.loadMethods()");
     }
   }
@@ -179,8 +180,6 @@ export default class AYAMerchantClass {
    * @param {PaymentRequest} payload
    * @param {string} payload.merchOrderId
    * @param {string} payload.amount
-   * @param {string} payload.appKey
-   * @param {number} payload.timestamp
    * @param {string} payload.userRef1
    * @param {string} payload.userRef2
    * @param {string} payload.userRef3
@@ -195,11 +194,11 @@ export default class AYAMerchantClass {
    */
   public async createPayment(payload: PaymentRequest): Promise<PaymentResponse> {
     try {
+      const timestamp = new Date().getTime();
       const signature = this.sumCheckPayRequest(
         payload.merchOrderId,
         payload.amount,
-        payload.appKey,
-        payload.timestamp,
+        timestamp,
         payload.userRef1,
         payload.userRef2,
         payload.userRef3,
@@ -210,7 +209,6 @@ export default class AYAMerchantClass {
         payload.channel,
         payload.method,
         payload.overrideFrontendRedirectUrl,
-        // checkSum
       );
       const config = {
         headers: {
@@ -220,7 +218,7 @@ export default class AYAMerchantClass {
       const body = {
         merchOrderId: payload.merchOrderId,
         amount: payload.amount,
-        appKey: payload.appKey,
+        appKey: this.#appKey,
         timestamp: payload.timestamp,
         userRef1: payload.userRef1,
         userRef2: payload.userRef2,
@@ -235,8 +233,72 @@ export default class AYAMerchantClass {
         checkSum: signature
       }
       const response = await axios.post(`${this.#baseUrl}/v1/payment/request`, body, config);
-      return response.data;
+      const extracted = this.extractDataByValuePattern(response.data);
+      return {
+        success: true,
+        qr: extracted.qrLink,
+        transactionId: extracted.tranId,
+      }
     } catch (error) {
+      console.error(error)
+      throw new Error("AYAConnect.createPayment()");
+    }
+  }
+  /**
+   * createPaymentRedirect
+   * @param {PaymentRequest} payload
+   * @param {string} payload.merchOrderId
+   * @param {string} payload.amount
+   * @param {string} payload.userRef1
+   * @param {string} payload.userRef2
+   * @param {string} payload.userRef3
+   * @param {string} payload.userRef4
+   * @param {string} payload.userRef5
+   * @param {string} payload.description
+   * @param {string} payload.currencyCode
+   * @param {string} payload.channel
+   * @param {string} payload.method
+   * @param {string} payload.overrideFrontendRedirectUrl
+   * @returns {PaymentResponse}
+   */
+  public async createPaymentRedirect(payload: PaymentRequest): Promise<any> {
+    try {
+      const timestamp = new Date().getTime();
+      const signature = this.sumCheckPayRequest(
+        payload.merchOrderId,
+        payload.amount,
+        timestamp,
+        payload.userRef1,
+        payload.userRef2,
+        payload.userRef3,
+        payload.userRef4,
+        payload.userRef5,
+        payload.description,
+        payload.currencyCode,
+        payload.channel,
+        payload.method,
+        payload.overrideFrontendRedirectUrl,
+      );
+      const body = {
+        merchOrderId: payload.merchOrderId,
+        amount: payload.amount,
+        appKey: this.#appKey,
+        timestamp: payload.timestamp,
+        userRef1: payload.userRef1,
+        userRef2: payload.userRef2,
+        userRef3: payload.userRef3,
+        userRef4: payload.userRef4,
+        userRef5: payload.userRef5,
+        description: payload.description,
+        currencyCode: payload.currencyCode,
+        channel: payload.channel,
+        method: payload.method,
+        overrideFrontendRedirectUrl: payload.overrideFrontendRedirectUrl,
+        checkSum: signature
+      }
+      return body;
+    } catch (error) {
+      console.error(error)
       throw new Error("AYAConnect.createPayment()");
     }
   }
@@ -267,6 +329,7 @@ export default class AYAMerchantClass {
       const jsonObject = JSON.parse(jsonString) as EnquiryDecodedResponse;
       return jsonObject;
     } catch (error) {
+      console.error(error)
       throw new Error("AYAConnect.loadMethods()");
     }
   }
@@ -305,9 +368,6 @@ export default class AYAMerchantClass {
     );
     return (signature === checkSum) ? true : false
   }
-
-
-
   /**
    * sumCheckLoadMethods
    * @param {string} nonce
@@ -340,7 +400,6 @@ export default class AYAMerchantClass {
   public sumCheckPayRequest(
     merchOrderId: string,
     amount: string,
-    appKey: string,
     timestamp: number,
     userRef1: string,
     userRef2: string,
@@ -352,12 +411,11 @@ export default class AYAMerchantClass {
     channel: string,
     method: string,
     overrideFrontendRedirectUrl: string,
-    // checkSum: string
   ): string {
     const stringToSign = [
       merchOrderId,
       amount,
-      appKey,
+      this.#appKey,
       timestamp,
       userRef1,
       userRef2,
@@ -368,8 +426,7 @@ export default class AYAMerchantClass {
       currencyCode,
       channel,
       method,
-      overrideFrontendRedirectUrl,
-      // checkSum
+      overrideFrontendRedirectUrl
     ].join(':');
     return crypto.createHmac('sha256', this.#secretKey)
       .update(stringToSign)
@@ -456,4 +513,67 @@ export default class AYAMerchantClass {
       .update(stringToSign)
       .digest('hex');
   }
+
+  /**
+   * extractDataByValuePattern
+   * @param {string} sourceString The raw HTML or content string to parse.
+   * @returns An object containing the extracted values.
+   */
+  extractDataByValuePattern(sourceString: string): {tranId: string, qrLink: string} {
+    const scriptTagRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+    const tranIdRegex = /([A-Za-z]\d{5,30})/g;
+    const qrLinkRegex = /(['"])\s*000201\s*(.*?com\.mmqrpay.*?)\s*\1/s;
+    let tranId: string | null = null;
+    let qrLink: string | null = null;
+
+    let match;
+    while ((match = scriptTagRegex.exec(sourceString)) !== null) {
+      const scriptContent = match[1];
+      console.log("--- Scanning Script Content ---");
+      console.log("Length:", scriptContent.length);
+      console.log("Content Preview:", scriptContent.substring(0, 150) + (scriptContent.length > 150 ? "..." : ""));
+      console.log("------------------------------");
+      if (tranId === null) {
+        const tranIdMatch = scriptContent.match(tranIdRegex);
+        if (tranIdMatch && tranIdMatch[2]) {
+          tranId = tranIdMatch[2];
+          console.log("DEBUG: Found Transaction ID:", tranId);
+        }
+      }
+      if (qrLink === null) {
+        const qrLinkMatch = scriptContent.match(qrLinkRegex);
+        if (qrLinkMatch && qrLinkMatch[2]) {
+          qrLink = qrLinkMatch[2];
+          console.log("DEBUG: Found QR ID:", qrLink);
+        }
+      }
+      if (tranId !== null && qrLink !== null) {
+        break;
+      }
+    }
+
+    return {
+      tranId: tranId as string,
+      qrLink: qrLink as string
+    };
+  }
+  /**
+   *extractData
+   * @param sourceString
+   * @returns
+   */
+  extractData(sourceString: string) {
+    const findValue = (key: string) => {
+      const regex = new RegExp(`const ${key}\\s*=\\s*"([^"]*)"`, 's');
+      const match = sourceString.match(regex);
+      return match ? match[1] : null;
+    };
+    const tranId = findValue('tran_id') as string;
+    const qrLink = findValue('qr_link') as string;
+    return {
+      tranId: tranId,
+      qrLink: qrLink
+    };
+  }
+
 }

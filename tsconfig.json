@@ -1,18 +1,17 @@
+// tsconfig.json
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext", 
+    "target": "ES2020",
+    "module": "NodeNext", // Modern resolution logic
     "moduleResolution": "NodeNext",
-    "lib": ["ES2022"],
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declaration": true, 
-    "declarationDir": "./dist",
-    "strict": true,
     "esModuleInterop": true,
+    "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "declaration": true, // Essential for generating .d.ts files
+    "outDir": "./dist/esm", // Output for ES Modules (will use for 'module' in package.json)
+    "rootDir": "./src"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*"
+  ]
 }

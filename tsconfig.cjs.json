@@ -1,13 +1,9 @@
+// tsconfig.cjs.json - Corrected
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.json", // Inherit all settings from the main config
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "outDir": "./dist",
-    "declaration": false,
-    "declarationDir": null
-  },
-  "include": [
-    "src/**/*.ts"
-  ]
+    "module": "CommonJS", // Set to CommonJS format
+    "moduleResolution": "Node", // ✨ THIS IS THE FIX: Use Node resolution logic for CJS
+    "outDir": "./dist/cjs" // Output for CommonJS
+  }
 }
