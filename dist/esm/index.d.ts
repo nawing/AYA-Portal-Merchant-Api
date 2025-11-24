@@ -130,7 +130,7 @@ export declare function AYAMerchantSDK(options: SDKOptions): AYAMerchantClass;
  * @AYAMerchantClass
  * @AYAMerchantClass
  */
-export default class AYAMerchantClass {
+declare class AYAMerchantClass {
     #private;
     constructor(options: SDKOptions);
     /**
@@ -265,3 +265,4 @@ export default class AYAMerchantClass {
         qrLink: string;
     };
 }
+export {};

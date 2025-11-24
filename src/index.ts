@@ -139,7 +139,7 @@ export function AYAMerchantSDK(options: SDKOptions): AYAMerchantClass {
  * @AYAMerchantClass
  * @AYAMerchantClass
  */
-export default class AYAMerchantClass {
+class AYAMerchantClass {
 
   readonly #baseUrl: string;
   readonly #appKey: string;

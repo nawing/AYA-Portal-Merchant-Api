@@ -1,6 +1,5 @@
-// const axios = require("axios");
-
-const { AYAMerchantSDK } = require("../dist/cjs/index.js");
+// const { AYAMerchantSDK } = require("../dist/cjs/index.js");
+import { AYAMerchantSDK } from "../dist/esm/index.js";
 const { performance } = require('perf_hooks');
 const dotenv = require("dotenv");
 dotenv.config();
@@ -70,26 +69,26 @@ async function start() {
    * @enquiryPayment
    * @enquiryPayment
    */
-  // AyaMerchantClient
-  //   .enquiryPayment({
-  //     merchOrderId: "ORD-1763982113750",
-  //   })
-  //   .then((response) => {
-  //     const endTime = performance.now();
-  //     const latencyMs = (endTime - startTime).toFixed(3);
-  //     console.log(`\n--- Successful ---`);
-  //     console.log(`**Network Latency: ${latencyMs} ms**`);
-  //     console.log(`Response:`, response);
-  //     console.log(`------------------------------\n`);
-  //   })
-  //   .catch((error) => {
-  //     const endTime = performance.now();
-  //     const latencyMs = (endTime - startTime).toFixed(3);
-  //     console.log(`\n--- Failed ---`);
-  //     console.log(`**Network Latency: ${latencyMs} ms**`);
-  //     console.log(`Response:`, error);
-  //     console.log(`------------------------------\n`);
-  //   })
+  AyaMerchantClient
+    .enquiryPayment({
+      merchOrderId: "ORD-1763982113750",
+    })
+    .then((response) => {
+      const endTime = performance.now();
+      const latencyMs = (endTime - startTime).toFixed(3);
+      console.log(`\n--- Successful ---`);
+      console.log(`**Network Latency: ${latencyMs} ms**`);
+      console.log(`Response:`, response);
+      console.log(`------------------------------\n`);
+    })
+    .catch((error) => {
+      const endTime = performance.now();
+      const latencyMs = (endTime - startTime).toFixed(3);
+      console.log(`\n--- Failed ---`);
+      console.log(`**Network Latency: ${latencyMs} ms**`);
+      console.log(`Response:`, error);
+      console.log(`------------------------------\n`);
+    })
 }
 
 

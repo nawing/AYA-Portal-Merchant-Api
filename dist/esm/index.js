@@ -386,4 +386,3 @@ class AYAMerchantClass {
     }
 }
 _AYAMerchantClass_baseUrl = new WeakMap(), _AYAMerchantClass_appKey = new WeakMap(), _AYAMerchantClass_secretKey = new WeakMap();
-exports.default = AYAMerchantClass;
