@@ -7,7 +7,7 @@ A robust, dual-module (ESM and CJS) TypeScript SDK for interacting with the AYA 
 This package supports Node.js environments and is compatible with both `import` (ESM) and `require` (CJS) syntax.
 
 ```bash
-npm install aya-merchant-api
+npm install aya-portal-merchant-api
 ```
 
 ## 🚀 Usage
@@ -18,7 +18,7 @@ The SDK requires your merchant credentials (`baseUrl`, `appKey`, and `secretKey`
 I cannot disclose API links here for confidentiality reasons but please connect with AYA innovation team for api base URL.
 
 ```typescript
-import { AYAMerchantSDK, SDKOptions } from 'aya-merchant-api';
+import { AYAMerchantSDK, SDKOptions } from 'aya-portal-merchant-api';
 
 const options: SDKOptions = {
   baseUrl: 'https://api.example.com/payment', // Replace with actual base URL
