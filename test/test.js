@@ -1,7 +1,11 @@
-// const { AYAMerchantSDK } = require("../dist/cjs/index.js");
-import 'dotenv/config';
-import { performance } from "perf_hooks";
-import { AYAMerchantSDK } from "../dist/esm/index.js";
+const { AYAMerchantSDK } = require("../dist/cjs/index.js");
+const dotenv = require("dotenv");
+dotenv.config()
+
+const { performance } = require("perf_hooks")
+// import 'dotenv/config';
+// import { performance } from "perf_hooks";
+// import { AYAMerchantSDK } from "../dist/esm/index.js";
 
 async function start() {
   const startTime = performance.now();

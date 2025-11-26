@@ -1,7 +1,7 @@
 {
-  "name": "aya-merchant-api",
-  "version": "1.0.8",
-  "description": "MMQR, Master, Visa, JCB, MPU",
+  "name": "aya-portal-merchant-api",
+  "version": "1.0.9",
+  "description": "MMQR, Master, Visa, JCB, MPU - Portal Integration Package",
   "keywords": [
     "MMQR",
     "Master",
